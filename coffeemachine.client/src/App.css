@@ -6,6 +6,10 @@
     min-height: 50%
 }
 
+body {
+    background-color: tan;
+}
+
 th, td {
     padding-left: 1rem;
     padding-right: 1rem;
