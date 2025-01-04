@@ -16,10 +16,12 @@ namespace CoffeeMachine.Server.Domain.Services
         {
             switch (machineModel)
             {
+                case Constants.MachineTypes.STANDARD:
+                    return new StandardMachine();
                 case Constants.MachineTypes.GRINDING:
                     return new GrindingMachine();
                 default:
-                    return new StandardMachine();
+                    throw new Exception(Constants.Messages.MACHINE_TYPE_NOT_FOUND);
             }
 
         }

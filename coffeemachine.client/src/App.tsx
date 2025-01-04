@@ -31,7 +31,7 @@ function App() {
                 <input type="button" value="Standard" onClick={() => getCoffee("standard")}></input>
                 <input type="button" value="Ground" onClick={() => getCoffee("grinding")}></input>
             </div>
-        </div>
+        </div>;
 
     const contents = response === undefined
         ? (<div className="centeredContent">

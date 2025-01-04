@@ -1,6 +1,7 @@
 using CoffeeMachine.Server.Domain.Interfaces;
 using CoffeeMachine.Server.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 
 namespace CoffeeMachine.Server.Controllers
 {
@@ -20,9 +21,16 @@ namespace CoffeeMachine.Server.Controllers
         [HttpGet(Name = "GetCoffee")]
         public IActionResult GetCoffee(string machineType)
         {
-            var coffeeMachine = _machineFactory.CreateCoffeeMachine(machineType);
-            var coffeeResponse = new { Message = coffeeMachine.Brew() };
-            return new JsonResult(coffeeResponse);
+            try
+            {
+                var coffeeMachine = _machineFactory.CreateCoffeeMachine(machineType);
+                var coffeeResponse = new { Message = coffeeMachine.Brew() };
+                return new JsonResult(coffeeResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
