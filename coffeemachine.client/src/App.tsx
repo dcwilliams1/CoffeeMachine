@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import './App.css';
-import * as React from 'react';
-import { error } from 'console';
 
 interface Coffee {
     message: string;
