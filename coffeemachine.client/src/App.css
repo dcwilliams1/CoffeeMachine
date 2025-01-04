@@ -3,9 +3,24 @@
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
+    min-height: 50%
 }
 
 th, td {
     padding-left: 1rem;
     padding-right: 1rem;
+}
+
+input[type=button] {
+    background-color: darkgoldenrod;
+    padding: .5rem;
+    margin-left: 15px;
+    border-color: black;
+    border-radius: 5px;
+}
+
+.centeredContent {
+    position: absolute;
+    top: 25%;
+    left: 40%;
 }

@@ -1,58 +1,55 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
+import * as React from 'react';
 
-interface Forecast {
-    date: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
+interface Coffee {
+    message: string;
 }
 
 function App() {
-    const [forecasts, setForecasts] = useState<Forecast[]>();
+    const [response, setResponse] = useState<Coffee | undefined>();
 
-    useEffect(() => {
-        populateWeatherData();
-    }, []);
+    const getCoffee = async (machineType: string) => {
+        try {
+            const response = await fetch('getCoffee?machineType=' + machineType);
+            if (response.ok) {
+                const data = await response.json();
+                setResponse(data);
+            } else {
+                setResponse({ message: "Could not make coffee. Please try again later."});
+            }
+        } catch (error) {
+            console.error("Failed to fetch coffee:", error);
+            setResponse({message: "The coffee machine is not available. Please try again later." });
+        }
+    };
 
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tableLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
+    const contents = response === undefined
+        ? (<div class="centeredContent">
+            <h1 id="tableLabel">Get Coffee</h1>
+            <p>Please choose either ground or standard coffee.</p>
+            <div>
+                <input type="button" value="Standard" onClick={() => getCoffee("standard")}></input>
+                <input type="button" value="Ground" onClick={() => getCoffee("grinding")}></input>
+            </div>
+        </div>)
+        : (<div class="centeredContent">
+            <h1 id="tableLabel">Get Coffee</h1>
+            <p>Please choose either ground or standard coffee.</p>
+            <div>
+                <input type="button" value="Standard" onClick={() => getCoffee("standard")}></input>
+                <input type="button" value="Ground" onClick={() => getCoffee("grinding")}></input>
+            </div>
+            <p>{response.message}</p>
+        </div>);
 
     return (
         <div>
-            <h1 id="tableLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
             {contents}
         </div>
     );
 
-    async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
-        if (response.ok) {
-            const data = await response.json();
-            setForecasts(data);
-        }
-    }
 }
+
 
 export default App;

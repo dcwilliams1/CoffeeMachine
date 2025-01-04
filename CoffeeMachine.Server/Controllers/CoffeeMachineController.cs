@@ -8,20 +8,21 @@ namespace CoffeeMachine.Server.Controllers
     [Route("getCoffee")]
     public class CoffeeMachineController : ControllerBase
     {
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<CoffeeMachineController> _logger;
         private readonly IMachineFactoryService _machineFactory;
 
-        public CoffeeMachineController(IMachineFactoryService machineFactory, ILogger<WeatherForecastController> logger)
+        public CoffeeMachineController(IMachineFactoryService machineFactory, ILogger<CoffeeMachineController> logger)
         {
             _logger = logger;
             _machineFactory = machineFactory;
         }
 
         [HttpGet(Name = "GetCoffee")]
-        public string GetCoffee(string machineType)
+        public IActionResult GetCoffee(string machineType)
         {
             var coffeeMachine = _machineFactory.CreateCoffeeMachine(machineType);
-            return coffeeMachine.Brew();
+            var coffeeResponse = new { Message = coffeeMachine.Brew() };
+            return new JsonResult(coffeeResponse);
         }
     }
 }
